@@ -1,0 +1,66 @@
+------------------------------
+ Maven
+------------------------------
+1、Maven介绍
+	Maven是一个项目管理工具
+	使用Maven可以帮我们管理企业级的Java项目开发
+	使用Maven可以统一项目结构，简化配置，还可以帮我们管理项目中所需要的Jar包
+
+2、Maven的下载、安装、配置
+2.1.本地仓库位置的配置
+	本地仓库:就是一个目录, 默认的位置在: C:\Users\{当前用户}\.m2\repository
+	将来通过Maven下载的所有jar包都会保存到本地仓库所在的目录下.
+	可以将本地仓库的位置配置到别的盘符,配置方式为:
+	在Maven_home/conf/settings.xml文件中,大概在55行添加如下配置：
+		<localRepository>D:/software/repo</localRepository>
+
+2.2.镜像服务器（私服）的配置
+	如果不配置，Maven默认到中央仓库下载项目中所需要的jar包
+	（中央仓库面向的是全球用户，所以下载jar包的速度可能比较慢）
+	可以配置连接公司的镜像服务器，由于公司的镜像服务器面向的人数相对较少，所以下载速度比较快！
+
+	如果在达内，使用的是达内的内网，连接不了外网，可以连接达内的镜像服务器，需要在settings.xml文件中的mirrors标签内部添加如下配置：
+		<mirror>
+			<id>nexus</id>
+			<name>Tedu Maven</name>
+			<mirrorOf>*</mirrorOf>
+			<url>http://maven.tedu.cn/nexus/content/groups/public/</url>
+		</mirror>
+	如果不在达内，连接不了达内的镜像服务器，如果有外网，可以配置连接阿里云的镜像服务器（也可以什么都不配置，默认连接中央仓库），连接阿里云的镜像服务器配置为：
+		<mirror>
+			<id>aliyun</id>
+			<name>aliyun Maven</name>
+			<mirrorOf>*</mirrorOf>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</mirror>
+		
+2.3.JDK的版本配置
+	通过Maven创建的工程，默认的JDK版本是1.5
+	如果希望在创建项目时，工程所用的JDK版本默认是1.7或1.8,可以在settings.xml文件中的profiles标签内部添加如下配置：
+	<profile>
+      <id>jdk-1.8</id>
+      <activation>
+	    <activeByDefault>true</activeByDefault>
+        <jdk>1.8</jdk>
+      </activation>
+      <properties>
+	     <maven.compiler.source>1.8</maven.compiler.source>
+		 <maven.compiler.target>1.8</maven.compiler.target>
+		 <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+	  </properties>
+    </profile>
+
+3、整合Maven和Eclipse
+	
+4、使用Maven创建工程
+
+5、Maven的目录结果
+
+6、导入已有的Maven工程
+	
+7、Maven的依赖管理
+	
+8、Maven的三种仓库
+	本地仓库：
+	镜像仓库（私服）：
+	中央仓库（公服）：

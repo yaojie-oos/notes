@@ -1,0 +1,34 @@
+		mybatis-plus分页说明
+		 * 1.new Page<>(current, size);
+		 * 	 current:当前页数
+		 * 	 size:   每页条数
+		 */
+		@Override
+		public EasyUITable findItemByPage(Integer page, Integer rows) {
+			
+			Page<Item> tempPage = new Page<>(page, rows);
+			QueryWrapper<Item> queryWrapper = new QueryWrapper<Item>();
+			queryWrapper.orderByDesc("updated");
+			//当前查询的分页结果对象
+			IPage<Item> IPage = 
+					itemMapper.selectPage(tempPage, queryWrapper);
+			//获取总记录数
+			int total = (int) IPage.getTotal();
+			//获取分页的结果
+			List<Item> userList = IPage.getRecords();
+			return new EasyUITable(total, userList);
+		}
+
+
+		@Configuration //配置类
+	public class MybatisConfig {
+		
+		/* <bean id="paginationInterceptor" class=""/> */
+		
+		//添加分页拦截器,否则分页有问题!!!!
+		@Bean //将对象交给Spring容器管理
+		public PaginationInterceptor paginationInterceptor() {
+			
+			return new PaginationInterceptor();
+		}
+	}

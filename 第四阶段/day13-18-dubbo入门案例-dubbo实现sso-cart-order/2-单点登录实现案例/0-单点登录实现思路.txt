@@ -1,0 +1,19 @@
+设计目的:
+	1.防止用户重复提交
+	2.防止用户窃取cookie之后冒用登录信息.
+实现思路:
+	1.动态获取用户登陆地址IP信息.
+	2.当用户登陆操作时,将username当做key,利用hash技术保存到redis中
+	  username:{IP:用户IP地址,JT_USERJSON:'json数据',JT_TICKET:"TICKET"}
+	  设计目的,将用户的完整记录保存到redis中.
+
+	用户登陆操作:
+		1.当用户登陆时,输入用户名和密码,获取用户的全部信息保存到redis中.
+		2.登陆成功之后将用户名 TICKET和username信息写入cookie中
+	动态获取用户信息:
+		1.通过JS校验用户判断用户是否已经登陆
+		2.如果用户登陆过,则cookie中一定有ticket信息和usrename信息.发起jsonp请求,请求后台服务器数据.
+		3.后台动态获取数据.ticket和username数据.
+			3.1根据username获取用户的hash数据. 首先对比IP地址.如果IP地址与redis中保存的IP不一致,则表示恶意登录.不予展现.
+			3.2对比ticket信息与redis中的ticket信息对比.是否正确.
+			3.3如果通过ticket获取的数据不为null则表示用户登陆正确.予以正确返回.
